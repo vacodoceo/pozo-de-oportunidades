@@ -1,45 +1,35 @@
-<script lang="ts">
-	import Header from '$lib/header/Header.svelte';
+<script>
 	import '../app.css';
 </script>
 
-<Header />
+<svelte:head>
+	<title>Pozo de oportunidades</title>
+</svelte:head>
 
-<main>
+<div class="relative min-h-full flex flex-col">
+	<!-- Navbar -->
+	<nav class="flex-shrink-0 bg-primary">
+		<div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+			<div class="relative flex items-center justify-between h-16">
+				<!-- Logo section -->
+				<div class="flex items-center px-2 lg:px-0 xl:w-64">
+					<!-- <div class="flex-shrink-0">
+						<img class="h-8 w-auto" src="logo-mercator.png" alt="Logo Mercator" />
+					</div> -->
+				</div>
+
+				<!-- Search section -->
+				<div class="flex-1 flex justify-center">
+					<div class="flex-shrink-0">
+						<img class="h-8 w-auto" src="logo-mercator.png" alt="Logo Mercator" />
+					</div>
+					<!-- <h2 class="font-semibold text-lg tracking-wide text-white">Pozo de oportunidades</h2> -->
+				</div>
+
+				<!-- Links section -->
+				<div class="hidden lg:block lg:w-80" />
+			</div>
+		</div>
+	</nav>
 	<slot />
-</main>
-
-<footer>
-	<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-</footer>
-
-<style>
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 1024px;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 40px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 40px 0;
-		}
-	}
-</style>
+</div>
