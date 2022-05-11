@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onClickOutside } from '$lib/utils/on-click-outside';
-	import { hasContext } from 'svelte';
 
 	enum OpportunityStatus {
 		Pending = 'Sin comenzar',
@@ -18,6 +17,7 @@
 		priority: number;
 		difficulty: number;
 		stakeholders: string;
+		id: string;
 	};
 
 	export let opportunities: Opportunity[];
@@ -326,7 +326,7 @@
 			</div>
 		</div>
 		<ul class="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
-			{#each filteredSortedOpportunities as opportunity, index (opportunity.title)}
+			{#each filteredSortedOpportunities as opportunity (opportunity.title)}
 				<li class="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
 					<div class="flex items-center justify-between space-x-4 md:space-x-12">
 						<div class="min-w-0 space-y-3">
@@ -352,7 +352,7 @@
 
 								<span class="block">
 									<h2 class="text-sm font-medium">
-										<a href={`/${index}`}>
+										<a href={`/${opportunity.id}`}>
 											<span class="absolute inset-0" aria-hidden="true" />
 											{opportunity.title} <span class="sr-only">Running</span>
 										</a>

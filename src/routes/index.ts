@@ -17,7 +17,7 @@ export const get: RequestHandler = async () => {
 		range
 	});
 
-	const opportunities = response.data.values.map((rawData) => {
+	const opportunities = response.data.values.map((rawData, index) => {
 		const [
 			title,
 			description,
@@ -39,7 +39,8 @@ export const get: RequestHandler = async () => {
 			status,
 			priority,
 			difficulty,
-			stakeholders
+			stakeholders,
+			id: index
 		};
 	});
 
