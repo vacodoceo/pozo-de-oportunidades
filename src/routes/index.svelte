@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { onClickOutside } from '$lib/utils/on-click-outside';
+	import { hasContext } from 'svelte';
+
 	enum OpportunityStatus {
 		Pending = 'Sin comenzar',
 		InProcess = 'En proceso',
@@ -24,7 +27,11 @@
 	let prioritySort = 1;
 	let difficultySort = 0;
 
-	$: sortedOpportunities = opportunities
+	let filtering: Boolean = false;
+	const activeFilterClass = 'font-medium';
+	let activeFilters = new Set(['Finalizado', 'En proceso', 'Sin comenzar']);
+	$: filteredSortedOpportunities = opportunities
+		.filter((opportunity) => activeFilters.has(opportunity.status))
 		.sort(
 			(a, b) =>
 				difficultySort * (a.difficulty - b.difficulty) + prioritySort * (a.priority - b.priority)
@@ -41,24 +48,192 @@
 		<div
 			class="pl-4 pr-6 pt-4 pb-4 border-b border-t border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:border-t-0"
 		>
-			<div class="flex items-center">
+			<div class="flex items-center space-x-4">
 				<h1 class="flex-1 text-lg font-medium">Oportunidades</h1>
-				<div class="relative">
+
+				<div
+					class="relative"
+					use:onClickOutside={() => {
+						filtering = false;
+					}}
+				>
 					<button
 						type="button"
-						class="w-full bg-white border border-gray-300 rounded-md shadow-sm px-4 py-2 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+						class="w-full bg-white border border-gray-300 rounded-md shadow-sm p-2 sm:px-4 sm:py-2 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+						id="filter-menu-button"
+						aria-expanded="false"
+						aria-haspopup="true"
+						on:click={() => (filtering = !filtering)}
+					>
+						<!-- Heroicon name: solid/filter-ascending -->
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-5 w-5 text-gray-400"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+							/>
+						</svg>
+						<span class="hidden sm:block sm:ml-3">Filtrar</span>
+						<!-- Heroicon name: solid/chevron-down -->
+						<svg
+							class="ml-1  sm:ml-2.5 -mr-1.5 h-5 w-5 text-gray-400"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 20 20"
+							fill="currentColor"
+							aria-hidden="true"
+						>
+							<path
+								fill-rule="evenodd"
+								d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+								clip-rule="evenodd"
+							/>
+						</svg>
+					</button>
+					<!-- Dropdown menu, show/hide based on menu state. -->
+					{#if filtering}
+						<div
+							class="origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden"
+							role="menu"
+							aria-orientation="vertical"
+							aria-labelledby="filter-menu-button"
+							tabindex="-1"
+						>
+							<button
+								class={`text-gray-700 block w-full px-4 text-left py-2 text-sm relative ${
+									activeFilters.has('Finalizado') && activeFilterClass
+								}`}
+								role="menuitem"
+								tabindex="-1"
+								id="filter-menu-item-1"
+								on:click={() => {
+									activeFilters.has('Finalizado')
+										? activeFilters.delete('Finalizado')
+										: activeFilters.add('Finalizado');
+									activeFilters = activeFilters;
+								}}
+								>Finalizado ({opportunities.filter(
+									(opportunity) => opportunity.status === 'Finalizado'
+								).length})
+								{#if activeFilters.has('Finalizado')}
+									<span
+										class="text-primary absolute inset-y-0 right-0 flex items-center pr-4 -z-10"
+									>
+										<svg
+											class="h-5 w-5"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 20 20"
+											fill="currentColor"
+											aria-hidden="true"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+												clip-rule="evenodd"
+											/>
+										</svg>
+									</span>
+								{/if}
+							</button>
+							<button
+								class={`text-gray-700 block w-full px-4 text-left py-2 text-sm relative ${
+									activeFilters.has('En proceso') && activeFilterClass
+								}`}
+								role="menuitem"
+								tabindex="-1"
+								id="filter-menu-item-2"
+								on:click={() => {
+									activeFilters.has('En proceso')
+										? activeFilters.delete('En proceso')
+										: activeFilters.add('En proceso');
+									activeFilters = activeFilters;
+								}}
+								>En proceso ({opportunities.filter(
+									(opportunity) => opportunity.status === 'En proceso'
+								).length})
+								{#if activeFilters.has('En proceso')}
+									<span
+										class="text-primary absolute inset-y-0 right-0 flex items-center pr-4 -z-10"
+									>
+										<svg
+											class="h-5 w-5"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 20 20"
+											fill="currentColor"
+											aria-hidden="true"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+												clip-rule="evenodd"
+											/>
+										</svg>
+									</span>
+								{/if}
+							</button>
+							<button
+								class={`text-gray-700 block w-full px-4 text-left py-2 text-sm relative ${
+									activeFilters.has('Sin comenzar') && activeFilterClass
+								}`}
+								role="menuitem"
+								tabindex="-1"
+								id="filter-menu-item-3"
+								on:click={() => {
+									activeFilters.has('Sin comenzar')
+										? activeFilters.delete('Sin comenzar')
+										: activeFilters.add('Sin comenzar');
+									activeFilters = activeFilters;
+								}}
+								>Sin comenzar ({opportunities.filter(
+									(opportunity) => opportunity.status === 'Sin comenzar'
+								).length})
+								{#if activeFilters.has('Sin comenzar')}
+									<span
+										class="text-primary absolute inset-y-0 right-0 flex items-center pr-4 -z-10"
+									>
+										<svg
+											class="h-5 w-5"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 20 20"
+											fill="currentColor"
+											aria-hidden="true"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+												clip-rule="evenodd"
+											/>
+										</svg>
+									</span>
+								{/if}
+							</button>
+						</div>
+					{/if}
+				</div>
+
+				<div
+					class="relative"
+					use:onClickOutside={() => {
+						sorting = false;
+					}}
+				>
+					<button
+						type="button"
+						class="w-full bg-white border border-gray-300 rounded-md shadow-sm p-2 sm:px-4 sm:py-2 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
 						id="sort-menu-button"
 						aria-expanded="false"
 						aria-haspopup="true"
 						on:click={() => (sorting = !sorting)}
-						on:blur={async () => {
-							await new Promise((resolve) => setTimeout(resolve, 100));
-							sorting = false;
-						}}
 					>
 						<!-- Heroicon name: solid/sort-ascending -->
 						<svg
-							class="mr-3 h-5 w-5 text-gray-400"
+							class="h-5 w-5 text-gray-400"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 20 20"
 							fill="currentColor"
@@ -68,10 +243,10 @@
 								d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"
 							/>
 						</svg>
-						Ordenar
+						<span class="hidden sm:block sm:ml-3">Ordenar</span>
 						<!-- Heroicon name: solid/chevron-down -->
 						<svg
-							class="ml-2.5 -mr-1.5 h-5 w-5 text-gray-400"
+							class="ml-1  sm:ml-2.5 -mr-1.5 h-5 w-5 text-gray-400"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 20 20"
 							fill="currentColor"
@@ -98,6 +273,7 @@
 									prioritySort === 1 && activeSortClass
 								}`}
 								on:click={() => {
+									sorting = false;
 									difficultySort = 0;
 									prioritySort = 1;
 								}}
@@ -110,6 +286,7 @@
 									prioritySort === -1 && activeSortClass
 								}`}
 								on:click={() => {
+									sorting = false;
 									prioritySort = -1;
 									difficultySort = 0;
 								}}
@@ -122,6 +299,7 @@
 									difficultySort === 1 && activeSortClass
 								}`}
 								on:click={() => {
+									sorting = false;
 									difficultySort = 1;
 									prioritySort = 0;
 								}}
@@ -134,6 +312,7 @@
 									difficultySort === -1 && activeSortClass
 								}`}
 								on:click={() => {
+									sorting = false;
 									difficultySort = -1;
 									prioritySort = 0;
 								}}
@@ -147,7 +326,7 @@
 			</div>
 		</div>
 		<ul class="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
-			{#each sortedOpportunities as opportunity, index (opportunity.title)}
+			{#each filteredSortedOpportunities as opportunity, index (opportunity.title)}
 				<li class="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
 					<div class="flex items-center justify-between space-x-4 md:space-x-12">
 						<div class="min-w-0 space-y-3">

@@ -3,7 +3,8 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				primary: '#1B3C87'
+				primary: '#1B3C87',
+				'whatsapp-green': '#25D366'
 			}
 		}
 	},

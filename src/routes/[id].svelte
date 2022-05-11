@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-
 	enum OpportunityStatus {
 		Pending = 'Sin comenzar',
 		InProcess = 'En proceso',
@@ -17,6 +15,7 @@
 		priority: number;
 		difficulty: number;
 		stakeholders: string;
+		phoneNumber: string;
 	};
 
 	export let opportunity: Opportunity;
@@ -56,7 +55,7 @@
 					<dt class="text-sm font-medium text-gray-500">Dificultad</dt>
 					<dd class="mt-1 text-sm text-gray-900">{opportunity.difficulty}</dd>
 				</div>
-				<div class="col-span-3">
+				<div class="col-span-2 sm:col-span-3">
 					<dt class="text-sm font-medium text-gray-500">Descripción</dt>
 					<dd class="mt-1 text-sm text-gray-900">
 						{opportunity.description}
@@ -64,11 +63,45 @@
 				</div>
 			</dl>
 		</div>
-		<div class="flex items-end flex-1 justify-center mb-4 mx-4 sm:mx-6">
-			<button
-				class="flex-1 bg-white py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
-				on:click={() => goto('/')}>Volver</button
+		<div class="flex items-end flex-1 justify-center mb-4 mx-4 sm:mx-6 space-x-4 space-y-2">
+			<a
+				class="flex-1 flex justify-center bg-white py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+				href="/"
 			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-5  w-5 mr-2 "
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+				</svg>
+
+				Volver</a
+			>
+			<a
+				class="flex flex-1 justify-center bg-whatsapp-green py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-white hover:bg-green-400"
+				href={`https://wa.me/${opportunity.phoneNumber}`}
+				target="_blank"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-5 w-5 mr-2"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+					/>
+				</svg>
+				Contactar
+			</a>
 		</div>
 	</div>
 </div>

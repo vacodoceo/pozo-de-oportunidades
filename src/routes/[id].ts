@@ -12,7 +12,7 @@ export const get: RequestHandler = async ({ params }) => {
 		scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly']
 	});
 	const sheets = google.sheets({ version: 'v4', auth });
-	const range = `Pozo de Oportunidades!B8:J18`;
+	const range = `Pozo de Oportunidades!B8:K18`;
 	const response = await sheets.spreadsheets.values.get({
 		spreadsheetId: process.env.GOOGLE_SHEET_ID,
 		range
@@ -28,8 +28,11 @@ export const get: RequestHandler = async ({ params }) => {
 			status,
 			priority,
 			difficulty,
-			stakeholders
+			stakeholders,
+			phoneNumber
 		] = rawData;
+
+		console.log(rawData);
 
 		return {
 			title,
@@ -40,7 +43,8 @@ export const get: RequestHandler = async ({ params }) => {
 			status,
 			priority,
 			difficulty,
-			stakeholders
+			stakeholders,
+			phoneNumber: phoneNumber.replace(/\D/g, '')
 		};
 	});
 
