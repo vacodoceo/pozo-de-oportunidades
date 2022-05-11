@@ -82,7 +82,7 @@
 				Volver</a
 			>
 			<a
-				class="flex flex-1 justify-center bg-whatsapp-green py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-white hover:bg-green-400"
+				class="flex flex-1 justify-center bg-whatsapp-green py-2 px-4 border rounded-md text-sm font-medium text-white hover:bg-green-400"
 				href={`https://wa.me/${opportunity.phoneNumber}`}
 				target="_blank"
 			>

@@ -32,8 +32,6 @@ export const get: RequestHandler = async ({ params }) => {
 			phoneNumber
 		] = rawData;
 
-		console.log(rawData);
-
 		return {
 			title,
 			description,
