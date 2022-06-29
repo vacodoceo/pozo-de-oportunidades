@@ -12,7 +12,7 @@ export const get: RequestHandler = async ({ params }) => {
 		scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly']
 	});
 	const sheets = google.sheets({ version: 'v4', auth });
-	const range = `Pozo de Oportunidades!B8:K18`;
+	const range = `Pozo de Oportunidades!B8:K`;
 	const response = await sheets.spreadsheets.values.get({
 		spreadsheetId: process.env.GOOGLE_SHEET_ID,
 		range
