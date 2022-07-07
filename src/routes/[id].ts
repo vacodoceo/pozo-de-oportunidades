@@ -18,7 +18,7 @@ export const get: RequestHandler = async ({ params }) => {
 		range
 	});
 
-	const opportunities = response.data.values.map((rawData) => {
+	const opportunities = response.data.values.map((rawData, index) => {
 		const [
 			title,
 			description,
@@ -33,6 +33,7 @@ export const get: RequestHandler = async ({ params }) => {
 		] = rawData;
 
 		return {
+			id: index,
 			title,
 			description,
 			createdBy,

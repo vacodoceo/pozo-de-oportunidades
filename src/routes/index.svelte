@@ -29,7 +29,7 @@
 
 	let filtering: Boolean = false;
 	const activeFilterClass = 'font-medium';
-	let activeFilters = new Set(['Finalizado', 'En proceso', 'Sin comenzar']);
+	let activeFilters = new Set(['En proceso', 'Sin comenzar']);
 	$: filteredSortedOpportunities = opportunities
 		.filter((opportunity) => activeFilters.has(opportunity.status))
 		.sort(
@@ -326,7 +326,7 @@
 			</div>
 		</div>
 		<ul class="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
-			{#each filteredSortedOpportunities as opportunity (opportunity.title)}
+			{#each filteredSortedOpportunities as opportunity (opportunity.id)}
 				<li class="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
 					<div class="flex items-center justify-between space-x-4 md:space-x-12">
 						<div class="min-w-0 space-y-3">
