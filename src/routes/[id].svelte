@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { DateTime, Settings } from 'luxon';
+
+	Settings.defaultLocale = 'es-cl';
+
 	enum OpportunityStatus {
 		Pending = 'Sin comenzar',
 		InProcess = 'En proceso',
@@ -16,6 +20,8 @@
 		difficulty: number;
 		stakeholders: string;
 		phoneNumber: string;
+		createdAt: string;
+		fileUrl: string;
 	};
 
 	export let opportunity: Opportunity;
@@ -54,6 +60,18 @@
 				<div class="sm:col-span-1">
 					<dt class="text-sm font-medium text-gray-500">Dificultad</dt>
 					<dd class="mt-1 text-sm text-gray-900">{opportunity.difficulty}</dd>
+				</div>
+				<div class="sm:col-span-1">
+					<dt class="text-sm font-medium text-gray-500">Fecha de creación</dt>
+					<dd class="mt-1 text-sm text-gray-900">
+						{DateTime.fromISO(opportunity.createdAt).toLocaleString()}
+					</dd>
+				</div>
+				<div class="sm:col-span-1">
+					<dt class="text-sm font-medium text-gray-500">Documento</dt>
+					<dd class="mt-1 text-sm underline text-blue-600 hover:text-blue-800">
+						<a href={opportunity.fileUrl} target="_blank">Link</a>
+					</dd>
 				</div>
 				<div class="col-span-2 sm:col-span-3">
 					<dt class="text-sm font-medium text-gray-500">Descripción</dt>

@@ -1,5 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { google } from 'googleapis';
+import { DateTime } from 'luxon';
 
 export const get: RequestHandler = async ({ params }) => {
 	const { id } = params;
@@ -12,7 +13,7 @@ export const get: RequestHandler = async ({ params }) => {
 		scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly']
 	});
 	const sheets = google.sheets({ version: 'v4', auth });
-	const range = `Pozo de Oportunidades!B8:K`;
+	const range = `Pozo de Oportunidades!B8:M`;
 	const response = await sheets.spreadsheets.values.get({
 		spreadsheetId: process.env.GOOGLE_SHEET_ID,
 		range
@@ -29,7 +30,9 @@ export const get: RequestHandler = async ({ params }) => {
 			priority,
 			difficulty,
 			stakeholders,
-			phoneNumber
+			phoneNumber,
+			createdAt,
+			fileUrl
 		] = rawData;
 
 		return {
@@ -43,7 +46,9 @@ export const get: RequestHandler = async ({ params }) => {
 			priority,
 			difficulty,
 			stakeholders,
-			phoneNumber: phoneNumber.replace(/\D/g, '')
+			phoneNumber: phoneNumber.replace(/\D/g, ''),
+			createdAt: DateTime.fromFormat(createdAt, 'dd/MM/yyyy').toJSDate(),
+			fileUrl
 		};
 	});
 

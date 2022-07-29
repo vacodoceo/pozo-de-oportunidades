@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onClickOutside } from '$lib/utils/on-click-outside';
+	import { DateTime } from 'luxon';
 
 	enum OpportunityStatus {
 		Pending = 'Sin comenzar',
@@ -18,13 +19,17 @@
 		difficulty: number;
 		stakeholders: string;
 		id: string;
+		createdAt: string;
+		fileUrl: string;
+		phoneNumber: string;
 	};
 
 	export let opportunities: Opportunity[];
 
 	let sorting: Boolean = false;
 	const activeSortClass = 'bg-gray-100 font-medium ';
-	let prioritySort = 1;
+	let dateSort = 1;
+	let prioritySort = 0;
 	let difficultySort = 0;
 
 	let filtering: Boolean = false;
@@ -34,7 +39,10 @@
 		.filter((opportunity) => activeFilters.has(opportunity.status))
 		.sort(
 			(a, b) =>
-				difficultySort * (a.difficulty - b.difficulty) + prioritySort * (a.priority - b.priority)
+				difficultySort * (a.difficulty - b.difficulty) +
+				prioritySort * (a.priority - b.priority) +
+				dateSort *
+					(DateTime.fromISO(a.createdAt).toMillis() - DateTime.fromISO(b.createdAt).toMillis())
 		)
 		.reverse();
 </script>
@@ -270,56 +278,98 @@
 						>
 							<button
 								class={`text-gray-700 block w-full px-4 text-left py-2 text-sm ${
+									dateSort === 1 && activeSortClass
+								}`}
+								on:click={() => {
+									sorting = false;
+									dateSort = 1;
+									difficultySort = 0;
+									prioritySort = 0;
+								}}
+								role="menuitem"
+								tabindex="-1"
+								id="sort-menu-item-1">Más recientes primero</button
+							>
+							<button
+								class={`text-gray-700 block w-full px-4 text-left py-2 text-sm ${
+									dateSort === -1 && activeSortClass
+								}`}
+								on:click={() => {
+									sorting = false;
+									dateSort = -1;
+									prioritySort = 0;
+									difficultySort = 0;
+								}}
+								role="menuitem"
+								tabindex="-1"
+								id="sort-menu-item-2"
+							>
+								Menos recientes primero
+							</button>
+							<button
+								class={`text-gray-700 block w-full px-4 text-left py-2 text-sm ${
 									prioritySort === 1 && activeSortClass
 								}`}
 								on:click={() => {
 									sorting = false;
+									dateSort = 0;
 									difficultySort = 0;
 									prioritySort = 1;
 								}}
 								role="menuitem"
 								tabindex="-1"
-								id="sort-menu-item-1">Más prioritarios primero</button
+								id="sort-menu-item-3"
 							>
+								Más prioritarios primero
+							</button>
 							<button
 								class={`text-gray-700 block w-full px-4 text-left py-2 text-sm ${
 									prioritySort === -1 && activeSortClass
 								}`}
 								on:click={() => {
 									sorting = false;
+									dateSort = 0;
 									prioritySort = -1;
 									difficultySort = 0;
 								}}
 								role="menuitem"
 								tabindex="-1"
-								id="sort-menu-item-2">Menos prioritarios primero</button
+								id="sort-menu-item-4"
 							>
+								Menos prioritarios primero
+							</button>
 							<button
 								class={`text-gray-700 block w-full px-4 text-left py-2 text-sm ${
 									difficultySort === 1 && activeSortClass
 								}`}
 								on:click={() => {
 									sorting = false;
+									dateSort = 0;
 									difficultySort = 1;
 									prioritySort = 0;
 								}}
 								role="menuitem"
 								tabindex="-1"
-								id="sort-menu-item-3">Más difíciles primero</button
+								id="sort-menu-item-5"
 							>
+								Más difíciles primero
+							</button>
 							<button
 								class={`text-gray-700 block w-full px-4 text-left py-2 text-sm ${
 									difficultySort === -1 && activeSortClass
 								}`}
 								on:click={() => {
 									sorting = false;
+									dateSort = 0;
 									difficultySort = -1;
 									prioritySort = 0;
 								}}
 								role="menuitem"
 								tabindex="-1"
-								id="sort-menu-item-4">Menos difíciles primero</button
+								id="sort-menu-item-6"
 							>
+								Menos difíciles primero
+							</button>
 						</div>
 					{/if}
 				</div>
@@ -354,7 +404,28 @@
 									<h2 class="text-sm font-medium">
 										<a href={`/${opportunity.id}`}>
 											<span class="absolute inset-0" aria-hidden="true" />
-											{opportunity.title} <span class="sr-only">Running</span>
+											{opportunity.title}
+											{#if DateTime.fromISO(opportunity.createdAt) > DateTime.local().minus( { week: 1 } )}
+												<span
+													class="inline-flex items-center ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+												>
+													New
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														class="h-4 w-4 ml-1"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+														stroke-width="2"
+													>
+														<path
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+														/>
+													</svg>
+												</span>
+											{/if}
 										</a>
 									</h2>
 								</span>
