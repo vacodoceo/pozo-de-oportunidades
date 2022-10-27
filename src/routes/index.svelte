@@ -27,13 +27,13 @@
 	export let opportunities: Opportunity[];
 
 	let sorting: Boolean = false;
-	const activeSortClass = 'bg-gray-100 font-medium ';
+	const activeSortClass = 'bg-gray-100 font-bold ';
 	let dateSort = 1;
 	let prioritySort = 0;
 	let difficultySort = 0;
 
 	let filtering: Boolean = false;
-	const activeFilterClass = 'font-medium';
+	const activeFilterClass = 'font-bold';
 	let activeFilters = new Set(['En proceso', 'Sin comenzar']);
 	$: filteredSortedOpportunities = opportunities
 		.filter((opportunity) => activeFilters.has(opportunity.status))
@@ -54,7 +54,7 @@
 			class="pl-4 pr-6 pt-4 pb-4 border-b border-t border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:border-t-0"
 		>
 			<div class="flex items-center space-x-4">
-				<h1 class="flex-1 text-lg font-medium">Oportunidades</h1>
+				<h1 class="flex-1 text-lg font-bold">Oportunidades</h1>
 
 				<div
 					class="relative"
@@ -64,7 +64,7 @@
 				>
 					<button
 						type="button"
-						class="w-full bg-white border border-gray-300 rounded-md shadow-sm p-2 sm:px-4 sm:py-2 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+						class="w-full bg-white border border-gray-300 rounded-md shadow-sm p-2 sm:px-4 sm:py-2 inline-flex justify-center text-sm font-bold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
 						id="filter-menu-button"
 						aria-expanded="false"
 						aria-haspopup="true"
@@ -230,7 +230,7 @@
 				>
 					<button
 						type="button"
-						class="w-full bg-white border border-gray-300 rounded-md shadow-sm p-2 sm:px-4 sm:py-2 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+						class="w-full bg-white border border-gray-300 rounded-md shadow-sm p-2 sm:px-4 sm:py-2 inline-flex justify-center text-sm font-bold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
 						id="sort-menu-button"
 						aria-expanded="false"
 						aria-haspopup="true"
@@ -398,13 +398,13 @@
 								</span>
 
 								<span class="block">
-									<h2 class="text-sm font-medium">
+									<h2 class="text-sm font-bold">
 										<a href={`/${opportunity.id}`}>
 											<span class="absolute inset-0" aria-hidden="true" />
 											{opportunity.title}
 											{#if DateTime.fromISO(opportunity.createdAt) > DateTime.local().minus( { week: 1 } )}
 												<span
-													class="inline-flex items-center ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+													class="inline-flex items-center ml-2 px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800"
 												>
 													New
 													<svg
@@ -427,7 +427,7 @@
 									</h2>
 								</span>
 							</div>
-							<p class="text-sm text-gray-500 text-justify line-clamp-3">
+							<p class="text-sm text-gray-500 text-justify line-clamp-3 whitespace-pre-line">
 								{opportunity.description}
 							</p>
 							<p class="flex space-x-2 items-center">
