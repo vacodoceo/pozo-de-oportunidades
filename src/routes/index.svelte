@@ -47,9 +47,6 @@
 		.reverse();
 </script>
 
-<div class="fixed top-0 left-0 w-1/2 h-full bg-white -z-10 hidden lg:block" aria-hidden="true" />
-<div class="fixed top-0 right-0 w-1/2 h-full bg-gray-50 -z-10 hidden lg:block" aria-hidden="true" />
-<!-- 3 column wrapper -->
 <div class="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
 	<!-- Projects List -->
 	<div class="bg-white lg:min-w-0 lg:flex-1 border border-gray-200 border-t-0">
@@ -490,8 +487,6 @@
 					</div>
 				</li>
 			{/each}
-
-			<!-- More projects... -->
 		</ul>
 	</div>
 </div>
