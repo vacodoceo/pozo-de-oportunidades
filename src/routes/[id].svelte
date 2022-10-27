@@ -67,12 +67,22 @@
 						{DateTime.fromISO(opportunity.createdAt).toLocaleString()}
 					</dd>
 				</div>
-				<div class="sm:col-span-1">
-					<dt class="text-sm font-bold text-gray-600">Documento</dt>
-					<dd class="mt-1 text-sm underline text-blue-600 hover:text-blue-800">
-						<a href={opportunity.fileUrl} target="_blank">Link</a>
-					</dd>
-				</div>
+
+				{#if opportunity.fileUrl}
+					<div class="sm:col-span-2">
+						<dt class="text-sm font-bold text-gray-600">Archivo adjunto</dt>
+						<dd class="mt-1 text-sm text-gray-900">
+							<a
+								href={opportunity.fileUrl}
+								target="_blank"
+								class="text-indigo-600 hover:text-indigo-900"
+							>
+								Ver archivo
+							</a>
+						</dd>
+					</div>
+				{/if}
+
 				<div class="col-span-2 sm:col-span-3">
 					<dt class="text-sm font-bold text-gray-600">Descripción</dt>
 					<dd class="mt-1 text-sm text-gray-900 whitespace-pre-line">
