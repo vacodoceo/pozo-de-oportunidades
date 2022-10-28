@@ -2,6 +2,10 @@
 	import '../app.css';
 
 	import { navigating } from '$app/stores';
+
+	import { inject } from '@vercel/analytics';
+
+	inject();
 </script>
 
 <svelte:head>

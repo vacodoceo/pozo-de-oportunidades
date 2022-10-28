@@ -75,6 +75,7 @@
 							<a
 								href={opportunity.fileUrl}
 								target="_blank"
+								rel="noopener noreferrer"
 								class="text-indigo-600 hover:text-indigo-900"
 							>
 								Ver archivo
@@ -112,6 +113,7 @@
 			<a
 				class="flex flex-1 justify-center bg-whatsapp-green py-2 px-4 border rounded-md text-sm font-bold text-white hover:bg-green-400"
 				href={`https://wa.me/${opportunity.phoneNumber}`}
+				rel="noopener noreferrer"
 				target="_blank"
 			>
 				<svg
