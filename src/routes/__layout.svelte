@@ -1,11 +1,23 @@
 <script>
 	import '../app.css';
 
-	import { navigating } from '$app/stores';
+	import { browser } from '$app/env';
+	import { navigating, page } from '$app/stores';
+	import { webVitals } from '$lib/vitals';
 
 	import { inject } from '@vercel/analytics';
 
 	inject();
+
+	const analyticsId = import.meta.env.VITE_VERCEL_ANALYTICS_ID;
+
+	$: if (browser && analyticsId) {
+		webVitals({
+			path: $page.url.pathname,
+			params: $page.params,
+			analyticsId
+		});
+	}
 </script>
 
 <svelte:head>
