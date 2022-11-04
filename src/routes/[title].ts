@@ -3,7 +3,7 @@ import { google } from 'googleapis';
 import { DateTime } from 'luxon';
 
 export const get: RequestHandler = async ({ params }) => {
-	const { id } = params;
+	const { title } = params;
 	const auth = await google.auth.getClient({
 		projectId: process.env.GOOGLE_PROJECT_ID,
 		credentials: {
@@ -52,7 +52,9 @@ export const get: RequestHandler = async ({ params }) => {
 		};
 	});
 
-	if (opportunities.length > Number(id)) return { body: { opportunity: opportunities[id] } };
+	const foundOpportunity = opportunities.find((opportunity) => opportunity.title === title);
+
+	if (foundOpportunity) return { body: { opportunity: foundOpportunity } };
 
 	return { status: 404 };
 };

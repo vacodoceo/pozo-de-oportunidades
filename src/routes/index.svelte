@@ -49,7 +49,7 @@
 
 <div class="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
 	<!-- Projects List -->
-	<div class="bg-white lg:min-w-0 lg:flex-1 border border-gray-200 border-t-0">
+	<div class="bg-white lg:min-w-0 lg:flex-1 border border-gray-200 border-y-0">
 		<div
 			class="pl-4 pr-6 pt-4 pb-4 border-b border-t border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:border-t-0"
 		>
@@ -399,7 +399,7 @@
 
 								<span class="block">
 									<h2 class="text-sm font-bold">
-										<a href={`/${opportunity.id}`}>
+										<a href={`/${opportunity.title}`}>
 											<span class="absolute inset-0" aria-hidden="true" />
 											{opportunity.title}
 											{#if DateTime.fromISO(opportunity.createdAt) > DateTime.local().minus( { week: 1 } )}

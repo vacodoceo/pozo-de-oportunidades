@@ -58,4 +58,34 @@
 	{:else}
 		<slot />
 	{/if}
+
+	<footer>
+		<div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+			<div class="py-4 sm:py-8 space-y-2 text-center text-sm text-gray-500">
+				<span class="block">
+					Si quieres subir oportunidades al Pozo, contáctate con
+					<a
+						href="https://wa.me/56948838946"
+						rel="noopener noreferrer"
+						target="_blank"
+						class="hover:underline text-indigo-600 hover:text-indigo-800"
+					>
+						Kimberly Acosta
+					</a>
+				</span>
+
+				<span class="block">
+					Made with ❤️ by
+					<a
+						href="https://github.com/vacodoceo"
+						rel="noopener noreferrer"
+						target="_blank"
+						class="hover:underline text-indigo-600 hover:text-indigo-800"
+					>
+						@vacodoceo
+					</a>
+				</span>
+			</div>
+		</div>
+	</footer>
 </div>
